@@ -1,0 +1,13 @@
+*{margin:0;padding:0;}
+body{
+	background-color : #232323;
+	margin:0;
+	font-family : "Montserrat","Avenir";
+	-webki-transition:all 0.1s ease;
+	transition:all 0.1s ease;
+	color: white;
+}
+       
+button{
+	color: black;
+}
