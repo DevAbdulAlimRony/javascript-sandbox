@@ -1,0 +1,1 @@
+- computer doesn't really know what javascript is! It knows binary. A javascript engine allows us to understand js file and tell computer what to do like a translator. There are so many javascript engines. These engines are written in language for example- V8 is written in C++
