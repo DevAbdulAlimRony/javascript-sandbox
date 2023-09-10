@@ -1,1 +1,85 @@
 - computer doesn't really know what javascript is! It knows binary. A javascript engine allows us to understand js file and tell computer what to do like a translator. There are so many javascript engines. These engines are written in language for example- V8 is written in C++
+
+- Very first javascript engine was SpiderMonkey which firefox still uses it created by Brendan Eich
+
+- ECMAScript is the governing body of the javascript that tells the standard of engine creators
+
+- Inside javascript V8 engine:
+        1. We give a javascript file
+        2. Parse Code-Lexical Analysis: Breaks the code into tokens
+        3. Tokens are formed into AST or Abstract Syntax Tree (check - astexplorer.net)
+        4. Interpreter: Translate and read the files line by line. Splits out byte code.
+        5. Profiler/Monitor: Watches our code and makes note how optimized the code.
+        6. Compiler: Create a translation and compiles down a language that is understood by machine.. JIT Compiler: To make engine faster, v8 engine mixed interpreter and compiler.
+        7. Optimized Code
+
+- We should write more optimized code so that our engine can run it faster.
+
+- Is javascript an interpreted language? - yes, initially when first engine came. Not technically now, technically it depends on the implementation of the engine.
+
+- In order to help javascript engine, we should careful while using those- eval(),arguments, for in, with, delete, Hidden Classes, Inline Caching
+
+- WebAssembly: It may change the era of the javascript engines which won't need those engine's process.
+
+- Memory Heap: Store and Write Information. Allocate memory, use memory, release memory. where the memory allocation happens.
+
+- Call Stack: Keep track where we are in the code or in execution. It operates in first in last out mode. In google chrome's dev tool: snippets - new snippet - copy paste code in sources - Enter - Observe Call Stack. Whatever on top of the call stack, that's where javascript is running.
+
+- Stack Overflow: If we keep calling function or that type of things. We will get error - uncaught rangeerror: maximum call stack size exceeded(Ex Code- function a() { a() })
+
+- Garbage Collection: Javascript is a garbage collected language. It automatically freeze up those memory we no longer use and collect as garbage. In low level language like c, we can manage memory and collect garbage. It uses mark sweep algorithm
+
+- Memory Leaks: Ex- Infinity Loop. Garbage collection isn't really working. Browser will be crashed. There are three common memory leaks:
+        1. Global Variables, more global variable more memory heap
+        2. Event Listeners, ex- keep onClick and never remove them.
+        3. setInterval, ex- referencing objects in setInterval()
+
+- Memory is limited. We should be conscious to not have stack overflow or memory leak and do memory management
+
+- Javascript is a single threaded programming language, One set of instructions are running at a time. It has only one call stack, functions aren't running in parallel. Because of this, javascript is synchronous- only one thing can happen at a time.
+
+- With single threaded synchronous code that js engines run,it will be difficult if we have long task. So, we need something beyond the javascript engine- Javascript Runtime.
+
+- Browser use low level programming language to provide- Web API comes with the browser, browsers that have engines and runtime. This web API is asynchronous, that means we can instruct this api to do something in the background. Ex- setTimeOut() , that's not part of the javascript, its web api. Check consoling window in browsers dev tool. Visualize the procedure in "latentflip.com/loupe"
+
+- When something comes up at call stack that is not part of the javascript but of web api, web api did the work and return it into callback queue and event loop push this callback onto the stack if its free. Ex:
+
+        1. console.log('1'); 
+           setTimeOut(()=>{console.log('2')}, 1000);
+           console.log('3') //Output: 1 3 2
+
+        2. console.log('1'); 
+           setTimeOut(()=>{console.log('2')}, 0);
+           console.log('3') //Output: 1 3 2
+
+           We get same output, because setTimeOut is the part of WebApi, it still get sent to the callback queue and event loop to check if stack is empty to push.
+
+- Using this, we can use asynchronous instead of using one call stack or memory heap when we need like modifying DOM or fetching http request.
+
+- Nodejs is a javascript runtime, run it outside of the browser. It is actually a c++ program- executable node.exe.
+
+- Execution Context: When see (), it is function, make an execution context and to the stack. Initially, javascript create global() execution context. Whenever code runs in javascript, it runs in execution context.
+
+- Global execution context gives 'global object' and 'this' keyword. In the browser, the global object is 'window'. If I add a variable/function/anything, it will be a part in global object window as key value pair. When we run a function, a new execution context is added and we run our code until all of it is popped up. Global execution context has creation phase(window, this, hoisting) and execution phase.
+
+- this===window : true
+
+- Lexical environment is where our code is written, in global context or in another function. Every time we create a function, we create a new world/environment inside that function and functions can communicate with each other in different ways.
+
+- In javascript, our lexical scope(available data + variables where the function was defined) determines our available variables. Not where our function is called(dynamic scope).
+
+- Hoisting: Hoisting is the behavior  of moving the variable or function declarations to the top of their respective environment. Variables are partially hoisted, functions are fully hoisted(get memory). If variable declaration before the creation phase, we get undefined. but not for function. let and const doesn't get hoisted.
+        Ex- console.log(a)-undefined ,var a=1; var a=2; ,console.log(a)-2
+
+        Ex- a();
+            function a() {'hi'}
+            function b() {'bye'} //output: bye
+
+- We can avoid hoisting by using const and let rather than var  
+
+- When we invoked a function, we get this keyword and arguments, variable environment
+
+- function f(a, b){ console.log(arguments) }
+  output: {0: 'value1', 1: 'value2'}
+
+- arguments keyword/object are little bit dangerous to use. Because they looks like array, but they are not really. Instead of use spread operator or Array.from(arguments)
