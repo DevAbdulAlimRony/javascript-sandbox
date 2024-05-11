@@ -1,0 +1,227 @@
+//Synchronous Programming: Synchronous basically means that you can only execute one thing at a time (one line, then next line)
+var a = 5;
+var response = storeData(a); // Waiting
+if (response.success) {
+  console.log(success);
+}
+// In the above example, storeData() storing data in server, so it has to be interact with server's processor.
+//So, it the line will wait as long as it has not done its work.After successful, next line will execute.
+// Like ATM  line, if any front man have problem with something, others will wait for him as long as that front man have done his work.
+// That is problematic
+
+// Asynchronous: It means that you can execute multiple things at a time and you don't have to finish executing the current thing in order to move on to next one.
+// If front man getting any problem to his account, others will take money. Front man will solve his problem at this time. Waiting silently.
+// We can experience asynchronous programming while working with database, api, server etc. But we can test it with some web api tools that browser or nodejs provide us.
+console.log("Line 1");
+setTimeout(() => {
+  console.log("After 5 second- Line 2");
+}, 5000);
+setTimeout(() => {
+  console.log("After 3 second- Line 3");
+}, 3000);
+setTimeout(() => {
+  console.log("After 3 second- Line 3");
+}, 0);
+console.log("Line 5");
+// Execution: Line 1, Line 5, Line 4, Line 3, Line 2
+// After finishing all synchronous work instantly, then asynchronous as time mentioned.
+
+// We cant store data from a function into a variable
+function sayName(name) {
+  let result;
+  setTimeout(() => {
+    result = name;
+    // console.log(name) , Output: undefined, name print after 3 s
+  }, 3000);
+  return result;
+}
+let output = sayName("Rony");
+console.log(output); // Output: Undefined, because it is called before async.
+//Reason: Synchronous goes to call stack, async goes to call stack then to the web api then to the event loop then to the call stack. For that, if we even provide 0 in setTimeOut(), it will work after all synchronous.
+// 'Callback Hell' or 'Pyramid of Doom': To handle this type of problem, js introduced await, async like terms
+
+// Javascript is a single threaded language, it process one process at a time. Browser provide use asynchronous options, not js.
+// Two Data Structure: Heap to manage vars, stack to manage func calls
+// A thread is a sequence of instructions that a program follows. Because the program consists of a single thread, it can only do one thing at a time: so if it is waiting for our long-running synchronous call to return, it can't do anything else.
+
+// In nodejs and browser, js works by google's v8 engine, so don't worry about platform. V8 dont know about DOM, broweser provides it.
+
+// Three ways to handle asynchronous: Callback, Promise, Async Function
+// Handling Collection on Async Operation: Async Iterator, For Await of Loop, Async Generator
+
+// AJAX: Asynchronous Javascript and XML (JSON) is a web api to transfer data from url or api, Just bring json data we need - not all html css and data.
+// Ajax with Callback Exm:
+function getResult(url, callback) {
+  const xhr = new XMLHttpRequest();
+  xhr.open("get", url);
+
+  xhr.onreadystatechange = function (e) {
+    if (xhr.readystate === 4) {
+      if (xhr.status === 200) {
+        let response = JSON.parse(xhr.response);
+        callback(null, response); // null means no error
+      } else {
+        callback(xhr.status, null);
+      }
+    }
+  };
+  xhr.send();
+}
+getResult("https://jsonplaceholder.typicode.com/posts", (err, res) => {
+  if (err) {
+    console.log(err);
+  } else {
+    res.forEach((r) => console.log(r.title));
+  }
+}); // But, rather than we can use Fetch API. It returns promise, so we dont need callback
+
+// Callback not always asynchronous like map()
+let arr = [1, 2, 3, 5];
+let squareArr = arr.map((v) => v * v);
+console.log(squareArr);
+
+// To make it asynchronous-
+function asyncMap(arr, callback) {
+  return arr.map((v) => {
+    // setTimeout(() => callback.bind(null, v), 0);
+    setTimeout(() => callback(v), 0);
+  });
+}
+let sqArr = asyncMap(arr, (v) => {
+  console.log(v); // we cant store async vals in variable, so we need callback here
+});
+console.log(qbArr);
+
+// Dependent Requests, Why not Callback in JS
+const base_url = "https://jsonplaceholder.typicode.com";
+
+getResult(`${base_url}/posts/1`, (err, res) => {
+  if (err) {
+    throw new Error("Error!");
+  }
+
+  let { userid } = res;
+  getResult(`${base_url}/users/${userid}`, (err, res) => {
+    // ...
+  });
+}); // This system is very problematic, that's why we use promise.
+
+// Promise: Promise is a constructor function which will have resolve (when success), and reject (when failure)
+// Promise has two status: Pending, Resolved, PromiseValue: ...
+// If anything resolved, then() block... If anything rejected, catch() block, finally() block rarely used
+let p1 = new Promise((resolve, reject) => {
+  setTimeout(resolve, 5000, "One"); // PromiseValue: One
+});
+p1.then((v) => {
+  console.log(v); // v is for resolve parameter, Output: one
+}).catch((e) => {
+  console.log(e); //e is for reject parameter
+});
+
+// Real Ex: If you passed in the exam , then I promise to buy you an iphone
+function getIphone(isPassed) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (isPassed) {
+        resolve("Got an Iphone");
+      } else {
+        reject(new Error("Failed in Exam"));
+      }
+    }, 2000);
+  });
+}
+getIphone(true)
+  .then((res) => {
+    console.log(res);
+  })
+  .catch((e) => {
+    console.log(e.message);
+  });
+
+// Fetch API
+const response = fetch(`${base_url}/users/1`); //It will return a promise, after sometimes it will be resolved
+fetch(`${base_url}/users/1`)
+  .then((res) => res.json())
+  // res returns many data like body, status etc, not js object
+  // res.json() will provide another promise with only data like js object which is already resolved.
+  // As it is a promise, we can use promise chaining, we dont need then and another catch. Just use then, because we already have a catch
+  .then((data) => {
+    console.log(data);
+    return Promise.resolve("Something"); // Another Promise, now again use then() to chain
+  })
+  .then((str) => {
+    console.log(str);
+  })
+  .catch((e) => {
+    console.log(e.message);
+  });
+// First res.json(), in its body- data, in its body- str : Chained
+
+// Convert GetResult() method of Ajax using FetchApi
+function fetchResult(url) {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open("get", url);
+
+    xhr.onreadystatechange = function (e) {
+      if (xhr.readystate === 4) {
+        if (xhr.status === 200) {
+          let response = JSON.parse(xhr.response);
+          resolve(response); // null means no error
+        } else {
+          reject(new Error("Error!"));
+        }
+      }
+    };
+    xhr.send();
+  });
+} // Now, we can use then() and catch() block when call this method
+
+// Some methods of Promise
+const delay = (s) => new Promise((resolve) => setTimeout(resolve, s * 1000));
+
+let p3 = Promise.resolve("OK"); // Instantly made and resolved
+p3.then((v) => console.log(v));
+
+let p4 = Promise.reject("Reject"); // Instantly create and reject
+
+let promiseArr = [p1, p2, p3];
+Promise.all(promiseArr).then((arr) => console.log(arr)); // Resolve after all promise resolved, Ex: at a time many request to the server
+// If got any rejection, all will be rejected
+
+Promise.race(promiseArr).then((arr) => console.log(arr)); // Resolve if any of them resolved. Like if set time out got 2s, 3s, 4s- just 2s will be resolved
+
+// Async Await
+function myPromise() {
+  return Promise.resolve("OK");
+}
+console.log(myPromise()); // This function returns promise
+
+async function myPromise2() {
+  return "Ok"; // Automatically returns promise, no need 'new Promise'
+}
+myPromise2().then((v) => alert(v));
+
+let p5 = new Promise((resolve) => {
+  setTimeout(resolve, 5000, "OK");
+});
+async function asyncFunc() {
+  let v = await p1; // wait to resolve the promise first, then go to the next line
+  console.log(v);
+}
+// Function must be async if we want to use await
+
+// Again, modify getResults()
+async function fetchData() {
+  try {
+    let res = await fetch("url");
+    let data = await res.json(); // Now, no need then() because of await
+    console.log(data);
+  } catch (e) {
+    console.log(e.message);
+  }
+}
+
+// Async Iterator: Handling Collection of Async: use [Symbol.asyncIterator]()
+// For Await of Loop
+// Async Generator
