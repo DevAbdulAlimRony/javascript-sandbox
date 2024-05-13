@@ -1,3 +1,8 @@
+// A callback function is a function passed into another function as an argument, which is then invoked inside the outer function to complete some kind of routine or action.
+// JavaScript has two main characteristics as a programming language, both important to understand how our code will work.
+// First is its synchronous nature, which means the code will run line after line, almost as you read it
+// and secondly that it is single - threaded, only one command is being executed at any time.
+
 //Synchronous Programming: Synchronous basically means that you can only execute one thing at a time (one line, then next line)
 var a = 5;
 var response = storeData(a); // Waiting
@@ -109,14 +114,22 @@ getResult(`${base_url}/posts/1`, (err, res) => {
 // Promise: Promise is a constructor function which will have resolve (when success), and reject (when failure)
 // Promise has two status: Pending, Resolved, PromiseValue: ...
 // If anything resolved, then() block... If anything rejected, catch() block, finally() block rarely used
+// then and catch and finally are methods of the Promise object, and they are chained one after the other. Each takes a callback function as its argument and returns a Promise.
+// finally allows us to execute code once the Promise is settled, regardless of whether it was resolved or rejected
 let p1 = new Promise((resolve, reject) => {
   setTimeout(resolve, 5000, "One"); // PromiseValue: One
 });
 p1.then((v) => {
   console.log(v); // v is for resolve parameter, Output: one
-}).catch((e) => {
-  console.log(e); //e is for reject parameter
-});
+})
+  .catch((e) => {
+    console.log(e); //e is for reject parameter
+  })
+  .finally(() => {
+    console.log(
+      "The Promise is settled, meaning it has been resolved or rejected."
+    );
+  });
 
 // Real Ex: If you passed in the exam , then I promise to buy you an iphone
 function getIphone(isPassed) {
@@ -209,6 +222,28 @@ async function asyncFunc() {
   let v = await p1; // wait to resolve the promise first, then go to the next line
   console.log(v);
 }
+
+async function doSomethingAsynchronous() {
+  // logic
+}
+
+const doSomethingAsynchronous = async () => {
+  // logic
+};
+
+// async function doSomethingAsynchronous() {
+//   try {
+//     const value = await greeting;
+//     console.log("The Promise is resolved!", value);
+//   } catch((error) {
+//     console.error("The Promise is rejected!", error);
+//   } finally {
+//     console.log(
+//       "The Promise is settled, meaning it has been resolved or rejected."
+//     );
+//   }
+// }
+
 // Function must be async if we want to use await
 
 // Again, modify getResults()
@@ -225,3 +260,7 @@ async function fetchData() {
 // Async Iterator: Handling Collection of Async: use [Symbol.asyncIterator]()
 // For Await of Loop
 // Async Generator
+
+// Blogs to Read:
+// 1. https://www.smashingmagazine.com/2020/11/comparison-async-await-versus-then-catch/
+// 2. https://www.freecodecamp.org/news/asynchronous-javascript/
