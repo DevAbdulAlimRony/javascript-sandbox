@@ -1,4 +1,17 @@
 // A callback function is a function passed into another function as an argument, which is then invoked inside the outer function to complete some kind of routine or action.
+function myDisplayer(some) {
+  document.getElementById("demo").innerHTML = some;
+}
+
+function myCalculator(num1, num2, myCallback) {
+  let sum = num1 + num2;
+  myCallback(sum);
+}
+
+myCalculator(5, 5, myDisplayer);
+//Right: myCalculator(5, 5, myDisplayer);
+//Wrong: myCalculator(5, 5, myDisplayer());
+
 // JavaScript has two main characteristics as a programming language, both important to understand how our code will work.
 // First is its synchronous nature, which means the code will run line after line, almost as you read it
 // and secondly that it is single - threaded, only one command is being executed at any time.
@@ -10,13 +23,15 @@ if (response.success) {
   console.log(success);
 }
 // In the above example, storeData() storing data in server, so it has to be interact with server's processor.
-//So, it the line will wait as long as it has not done its work.After successful, next line will execute.
+// So, the line will wait as long as it has not done its work.After successful, next line will execute.
 // Like ATM  line, if any front man have problem with something, others will wait for him as long as that front man have done his work.
 // That is problematic
 
+// Functions running in parallel with other functions are called asynchronous
 // Asynchronous: It means that you can execute multiple things at a time and you don't have to finish executing the current thing in order to move on to next one.
 // If front man getting any problem to his account, others will take money. Front man will solve his problem at this time. Waiting silently.
 // We can experience asynchronous programming while working with database, api, server etc. But we can test it with some web api tools that browser or nodejs provide us.
+// Ex: fetch(), getUserMedia(), showOpenFilePicker()
 console.log("Line 1");
 setTimeout(() => {
   console.log("After 5 second- Line 2");
@@ -25,11 +40,25 @@ setTimeout(() => {
   console.log("After 3 second- Line 3");
 }, 3000);
 setTimeout(() => {
-  console.log("After 3 second- Line 3");
+  console.log("After 4 second- Line 4");
 }, 0);
 console.log("Line 5");
 // Execution: Line 1, Line 5, Line 4, Line 3, Line 2
 // After finishing all synchronous work instantly, then asynchronous as time mentioned.
+// The window object represents an open window in a browser. setTimeOut() is a method of Window Object. The setTimeout() method calls a function after a number of milliseconds. 1 second = 1000 milliseconds.
+// setTimeout(functionRef/code, delay, param1, param2, /* …, */ paramN). A function to be executed after the timer expires.
+// If delay parameter is not given, a value of 0 is used, meaning execute "immediately", or more accurately, the next event cycle.\
+// Always use integr for delay, if string given like "1000"- it will convert as integer. If '1 second'- It will consider as 0.
+// setTimeout() is an asynchronous function, meaning that the timer function will not pause execution of other functions in the functions stack.
+// browsers will enforce a minimum timeout of 4 milliseconds once a nested call to setTimeout has been scheduled 5 times.
+
+// The clearTimeout() method clears a timer set with the setTimeout() method.
+//To clear a timeout, use the id returned from setTimeout():
+// myTimeout = setTimeout(function, milliseconds); clearTimeout(myTimeout); Better Example in W3Schhols last example.
+
+// The setTimeout() is executed only once. If you need repeated executions, use setInterval() instead.
+setInterval(myFunction, 1000); // Call every one second
+//The setInterval() method continues calling the function until clearInterval() is called, or the window is closed.
 
 // We cant store data from a function into a variable
 function sayName(name) {
@@ -43,16 +72,16 @@ function sayName(name) {
 let output = sayName("Rony");
 console.log(output); // Output: Undefined, because it is called before async.
 //Reason: Synchronous goes to call stack, async goes to call stack then to the web api then to the event loop then to the call stack. For that, if we even provide 0 in setTimeOut(), it will work after all synchronous.
-// 'Callback Hell' or 'Pyramid of Doom': To handle this type of problem, js introduced await, async like terms
+//'Callback Hell' or 'Pyramid of Doom': To handle this type of problem, js introduced await, async like terms
 
-// Javascript is a single threaded language, it process one process at a time. Browser provide use asynchronous options, not js.
+// Javascript is a single threaded language, it process one process at a time. Browser provides asynchronous options, not js.
 // Two Data Structure: Heap to manage vars, stack to manage func calls
 // A thread is a sequence of instructions that a program follows. Because the program consists of a single thread, it can only do one thing at a time: so if it is waiting for our long-running synchronous call to return, it can't do anything else.
 
 // In nodejs and browser, js works by google's v8 engine, so don't worry about platform. V8 dont know about DOM, broweser provides it.
 
 // Three ways to handle asynchronous: Callback, Promise, Async Function
-// Handling Collection on Async Operation: Async Iterator, For Await of Loop, Async Generator
+// Handling Collection on Async Operation: Async Iterator, For Await of Loop, Async Generator ***
 
 // AJAX: Asynchronous Javascript and XML (JSON) is a web api to transfer data from url or api, Just bring json data we need - not all html css and data.
 // Ajax with Callback Exm:
@@ -112,7 +141,12 @@ getResult(`${base_url}/posts/1`, (err, res) => {
 }); // This system is very problematic, that's why we use promise.
 
 // Promise: Promise is a constructor function which will have resolve (when success), and reject (when failure)
-// Promise has two status: Pending, Resolved, PromiseValue: ...
+// Promise has two status: Pending, Resolved. PromiseValue: ...
+// A JavaScript Promise object can be: Pending, Fulfilled, Rejected
+// The Promise object supports two properties: state and result.
+// While a Promise object is "pending" (working), the result is undefined.
+// When a Promise object is "fulfilled", the result is a value.
+// When a Promise object is "rejected", the result is an error object.
 // If anything resolved, then() block... If anything rejected, catch() block, finally() block rarely used
 // then and catch and finally are methods of the Promise object, and they are chained one after the other. Each takes a callback function as its argument and returns a Promise.
 // finally allows us to execute code once the Promise is settled, regardless of whether it was resolved or rejected
