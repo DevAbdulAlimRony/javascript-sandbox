@@ -136,3 +136,181 @@ changeObj(objData); // Output: 110
 console.log(objData.a); // Output: 110, changed the value (pass by reference)
 // So, primitive data cannot be changed inside a function, but object can be changed
 // Object in Javascript is a Mutable Object. If we change object in any function, everywhere where we used that object will change
+
+// Abstraction (Others language use- public protected private)
+var AbstrctTest = function (width, height) {
+  this.width = width;
+  this.height = height;
+  this.position1 = {
+    x: 56,
+    y: 77,
+  };
+
+  var position2 = {
+    x: 56,
+    y: 77,
+  };
+  // Position1 is public, but position2 will be private because of its scope in function
+
+  var printProperties = function () {
+    console.log(width); // Not this.width, beacuse it is in var
+  };
+
+  // or, this way
+  var printProperties2 = function () {
+    console.log(this.width);
+  }.bind(this);
+
+  // But if we want the access of that abstracted property position ?
+  this.getPosition = function () {
+    return position;
+  };
+
+  // or, Another Solution to Access Private (Getter Setter)
+  Object.defineProperty(this, "position", {
+    get: function () {
+      return position;
+    },
+    set: function (value) {
+      position = value; // we can check condition also here
+    },
+  });
+}; // Just width and height is accessible from object of this Class
+
+var rect7 = new AbstractTest(1, 2);
+console.log(rect7.getPosition()); // Accessed Private Property
+// When we Use defineProperty
+rect7.position = {
+  x: 456,
+  y: 2,
+};
+console.log(rect7.position);
+
+// Inheritence
+// Protoype: Just a Parent Class
+// obj.__proto__ === obj2.__proto__; // Checking Same Prototype, __proto__ is deprecated, just for test
+Object.getPrototypeOf(obj) === Object.getPrototypeOf(obj2);
+// If we create an array, it is actually inherited from Array prototype where all methods are defined and this prototype came from Object prototype
+// Same for Our string -> String -> Object (Multi Level Inheritence/Prototyping)
+
+// Property Descriptor (set if property just readable or writable etc)
+var person = {
+  name: "Abdul Alim",
+};
+var descriptor = Object.getOwnPropertyDescriptor(person, "name"); // checking property descriptor
+console.log(descriptor); //Output: configurabe: true, enumerable: true, value: 'Abdul Alim , writable: true.
+// Writable means, we can override from outside. Configurable (if removable from outside),enumerable (Viewable when Iterate)
+let baseObj = Object.getPrototypeOf(person); // person.__proto__
+let descriptor2 = Object.getOwnPropertyDescriptor(baseObj, "toString");
+console.log(descriptor2); // enumurable: false, so we cant remove toString method from Outside
+
+// Setting Property Descriptor
+Object.defineProperty(person, "name", {
+  enumerable: false,
+  writable: false,
+  configurable: false,
+  value: "Not Changable Name",
+});
+
+// Constructor Prototype
+function Person(name) {
+  this.name = name;
+}
+Person.prototype.PI = 3.1416;
+var p1 = new Person("AAR"); // eery object's prototype will get PI as like as constructor called when object call
+// Ex: Array.prototype.myMethod = function () {} - we added myMethod in array constructor, now we can use that method in any of our array
+
+// Ex
+function Square(width) {
+  this.width = width;
+  // We didnt configure draw() here
+  // We can call this.draw() here
+}
+Square.prototype = {
+  draw: function () {
+    // we can call this.width here
+    console.log("Draw");
+  },
+};
+var sqr1 = new Square(10);
+var sqr2 = new Square(5); // Now, when we call obj, dont copy draw method again and again, in memory we have just one draw() method in constructor
+sqr1.draw();
+// width is instance member, draw is prototype member
+
+// Check Property: obj.hasOwnProperty('width')
+// check instance: Object.keys(obj),
+// check instance and prototype: for (var i in obj) { } - i is key here
+
+// Custom Prototypical Inheritence Example
+function Shape(color) {
+  this.color = color;
+}
+Shape.prototype = {
+  common: function () {
+    console.log("Common Method");
+  },
+};
+
+function Square2(width) {
+  Shape.call(this, color); // Getting Property of Shape (super call)
+  this.width = width;
+}
+Square2.prototype = Object.create(Shape.prototype); // prototype reset
+Square2.prototype.constructor = Square2; // Constructor Reseting
+//Now  Extend
+Square2.prototype.draw = function () {
+  console.log("Drawing");
+};
+var sqr = new Square(45, "green");
+
+function Circle(radius, color) {
+  Shape.call(this, color);
+  this.radius = radius;
+}
+Circle.prototype = Object.create(Shape.prototype);
+Circle.prototype.constructor = Circle;
+// But when we are extending in Square2 and Circle, same code duplication is happenning
+// So, we can create a common extends function at first
+function extend(Parent, Child) {
+  Child.prototype = Object.create(Parent.prototype);
+  Child.prototype.constructor = Child;
+} // Now, we can use this function
+extend(Shape, Circle);
+
+// Method Overriding
+Circle.prototype.common = function () {
+  Shape.prototype.common.call(this); // common method call
+  console.log("Calling from Circle"); // method changed
+};
+
+// Polymorphism: We are overriding method, so it is giving different outputs from different class instance, that's the polymorphism
+// Check object's class: sqr instanceof Square - output: true or false
+
+// Inheritence and Composition Mixin
+var canWalk = {
+  walk: function () {
+    console.log("Walking...");
+  },
+};
+var canEat = {
+  eat: function () {
+    console.log("Eating...");
+  },
+};
+var person = Object.assign({}, canWalk, canEat); // Concat Eat and Walk in Empty Object
+console.log(person);
+
+// or, this approach
+function Person(name) {
+  this.name = name;
+}
+Object.assign(Person.prototype, canWalk, canEat);
+
+// or,
+function mixin(target, ...sources) {
+  // ...sources rest operator fist take all args as array then again in assign when we spread it it divides into objects (ES6)
+  Object.assign(target, ...sources);
+}
+mixin(Person.prototype, canWalk, canEat);
+var person1 = new Person("A");
+console.log(person);
