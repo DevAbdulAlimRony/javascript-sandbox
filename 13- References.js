@@ -119,3 +119,36 @@ var total = ages.reduce(function (prevValue, currentValue) {
 // reduceRight() : right to left
 
 /*== 2. String ==*/
+let str1 = "Abdul ";
+let str2 = "   Alim";
+str1.constructor; // ES1 Feature, output: function String() { [native code] }
+str1.length; // Length Property
+let charFromUnicode = String.fromCharCode(72, 69, 67); // Converts Unicode values to characters
+// String.fromCharCode Static method of the String object
+// The prototype property allows you to add new properties and methods to strings.
+// The prototype is a property available with all JavaScript objects.
+
+str1.at(0); // Character at Index
+// charAt(), charCodeAt()- Unicode of Indexed Character, codePointAt()
+str1.indexOf("A"); // First Occurance Index of A
+// lastIndexOf
+str1.concat(str2); // Joins two or more strings an return a new
+str1.concat(" ", str2);
+str2.endsWidth("Alim"); // true
+str2.endsWidth("alim"); // false
+str1.includes("Abdul"); // Output: true, ES6 feature
+str1.match("ab"); // Output: ab. if not found, null. Do a Serach for ab (first occurance)
+str1.match(/ab/); // Search by Regular Expression
+str1.match(/ab/g); // global search, output all ab found (all occurance)
+str1.match(/ab/gi); // global case insensitive search
+str1.search("Abdul"); // or, /Abdul/ or, /Abdul/i (case insensitive). If not found, return -1
+// saerch returns index of matched, match returns array of matched values
+str1.localeCompare(str2); // 0 if equal, 1 if first one sorted before, -1 if second one sorted after
+str2.repeat(2); //  Output: Alim Alim. ES6 Featue, dont change original
+let newStr2 = str2.replace("Alim", "Halim"); // Replace a First Occurance of Specified String, new string
+let newStr3 = str2.replace(/Alim/g, "Dalim"); //  All occurance of Alim Replaced (global replace)
+// replaceAll (replace all occurance)- ES21 feature
+
+// Adding Pad
+let padded = str1.padEnd(6, "-"); //str1 length must be 6, so we added - at last to make it length of 6: Abdul -
+// padStart

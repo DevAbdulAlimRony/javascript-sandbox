@@ -188,3 +188,105 @@ console.log(s1); // output: Symbol
 // Method: toString(), value(). But what is the use case?
 // Symbol helps for non public properties in class (private property)
 // Symbol Helps to create enum (set of constants), because js has no enum system
+
+//* Iterator
+// Sometimes nested looping can be confusing, so iterator introduced. Iterator can be stopped or start at ant time we need.
+// string, array etc. are iterable, They have a Iterator Interface.
+// Iterator is an object which have just one method designed to iterate on a collection
+// Custom Iterator in ES5:
+const arr = [1, 2, 3];
+function createIterator(collection) {
+  // Return object which have one method next that return another object
+  let i = 0; // index initialized
+  return {
+    next() {
+      return {
+        done: i >= collection.length, // done iteration on this condition
+        value: collection[i++],
+      };
+    },
+  };
+}
+let iterate = createIterator(arr);
+console.log(iterate.next()); // First Output: done: false, value: 1, in another call it will increment. At last: done: true, value: undefined
+
+// But in ES6, JS introduces Symbol.iterator. So, we dont need this type of custom Configuration
+// If any object have Symbol.iterator property, then it is iterabol
+console.log(arr[Symbol.iterator]); // It will return f{native code}, that means in array this property presents
+let iterate2 = arr[Symbol.iterator](); // Now, it is functioning like createIterator
+
+//* For Of Loop: Decrease Complexity of For Loop at Next Level, there dont need Index
+// To run, object must be iterable. Ex- Array, String, Iterable Object
+for (let value of arr) {
+  console.log(value); // Output: 1 2 3
+}
+
+// Object is not iterable in default. But if we implement Symbol.iterator in an Object, it will be iterable
+//* Generator: It is a way to make a non iterable to iterable
+let iterableObj = {
+  start: 1,
+  end: 5,
+  [Symbol.iterator]: function* () {
+    // If we use * sign with afunction, it will be a generator
+    let currentValue = this.start;
+    while (currentValue <= this.end) {
+      yield currentValue++; // yeild means it will be paused, not stopped
+    }
+  },
+};
+// so, a function which returning an iterator from a collection, it is a generator
+function* generate(collection) {
+  for (let i = 0; i < collection.length; i++) {
+    yield collection[i];
+  }
+} // we can use this function in object, callback or async
+let iterate3 = generate(arr);
+
+//* Data Structure
+// Array was just one data structure in js, ES6 introduced two data structure set and map
+//* Set: In set, we can't duplicate any data
+let set = new Set([1, 2, 3]);
+// If we duplicate any data in set, it will be skipped, also in length it will not be counted
+set.add(5);
+set.size; // length
+set.delete(1); // delete a data
+set.clear(); // set destroyed
+set.has(5); // check if provided data present
+// entries(), keys(), values()
+// set is iterable. So we can run for of on it
+const uniqueArr = [...new Set(arr)]; // removing duplicates from an array
+// Real Use: setting unique tags, set active user on online uniquely
+
+// Weak Set: Different Kind of Set
+let setA = { a: 10 },
+  setB = { b: 20 };
+let set2 = new Set([setA, setB]);
+setA = null; // Garbaze Collection, Clean Memory of setA
+// But in set Data, it will not be cleaned. So, memory leak can happen
+// Weak Map solve this problem:
+let weakSet = new WeakSet([setA, setB]); // It is not iterable, no primitive data accepted. Just accept object
+setB = null; // Now, it will be cleaned
+// weakset methods: add(), delete(), has()
+
+//* Map: key value pair. In object, we cant pass anything as key, but in map, we can put any type data as key ((objects, functions, or primitive data types)
+let map = new Map([
+  ["a", 10], // a is key, 10 is value
+  ["b", 5],
+]);
+// Map is iterable, so we can use for of
+for (let [key, value] of map) {
+  console.log(key, value);
+}
+map.forEach((value, key) => {
+  console.log(value, key);
+});
+map.set({ name: "Abdul" }, 26); // object is the key
+map.set("d", 40);
+map.delete("d");
+map.size;
+map.get("a"); // output: 10
+// clear(), entries(), values(), keys()
+// Real Life Example: User Session Store etc.
+//* WeakMap: Same Concept as WeakSet
+
+//* ES6 Class Discussed in OOP.js Section
