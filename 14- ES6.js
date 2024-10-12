@@ -290,3 +290,12 @@ map.get("a"); // output: 10
 //* WeakMap: Same Concept as WeakSet
 
 //* ES6 Class Discussed in OOP.js Section
+
+//* ES6 Module:
+// when we take another file like shape.js, we have to export it
+// export default Shapen(Now, it is accessible in another file), just import it
+// import Shape from './shape.js'- as we used default, we can give any name
+// We can use export keyword with all function in the file (ex. calculate.js) - export function add(), export function sub()
+// Now, If we want import all from calculate.js: import * as calculate from './calculate.js'
+// Now, we can use it as func.add()
+// But if we want just some function - import {add, sub} from './calculate.js' (using destructuring). Now, add() is accessible
