@@ -275,3 +275,5 @@ Object.groupBy(person1, customCallback());
 
 person2.toString(); // Convert Object to String. If cant, it returns [Object Object]
 person2.valueOf();
+
+/*== 4. Date ==*/

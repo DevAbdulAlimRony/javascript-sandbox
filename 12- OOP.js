@@ -316,3 +316,64 @@ var person1 = new Person("A");
 console.log(person);
 
 //*== OOP in ES6 == //
+class Shape {
+  constructor(color) {
+    this.color = color;
+  }
+  inheritMe() {
+    console.log("OK...");
+  }
+}
+const _angle = Symbol(); //private data using symbol
+const _angle2 = new WeakMap(); // private data using weakmap
+const _draw2 = Symbol();
+class Reactangle extends Shape {
+  // Inherit using extend keyword
+
+  // Define Constructor
+  constructor(color, width, height, angle, angle2) {
+    super(color); // we called constructor of parent Shape class to work inherit perfectly
+    // If no constructor in parent class, just call super() without argument. If not, we will get error
+    this.width = width;
+    this.height = height;
+    // this._angle = angle; // Funny Approach for private Data: Just Developers will know it is private, but it is still accessible
+    this._[angle] = angle; // private data using symbol. Now we cant access by obj.angle. But still can access by getOwnPropertiesSymbol()
+    _angle2.set(this, angle2); // private data using weakmap
+    this.another = function () {}; // this method will not go to the prototype, it will go to the property section
+  }
+
+  // From parent class, inheritMe(0 method can be override, just define normally
+
+  // Property Define not support, we can use plugin like plugin from babel to use it. React give us this type of support
+
+  // Define Method. Method will automatically go to the prototype
+  draw() {
+    console.log("Drawing...");
+    console.log(_angle2.get(this));
+  }
+
+  // Method can be used as private using symbol or weakmap
+  [_draw2]() {
+    console.log("Drawing...");
+  }
+
+  // Static Methods (Ex. Math.random()), when we dont need to create an objcet/instance to use a method
+  static print(str) {
+    let angles = JSON.parse(str);
+    return new Reactangle(angles.first, angles.second);
+  }
+
+  // getter setter (accessors, mutators)
+  get radius() {
+    return _angle.get(this);
+  } // Now, from outside we can access by obj.radius
+  set radius(v) {
+    return _angle.set(this, v);
+  } // Now, can set from outside-obj.angle = 100
+}
+let newReact = new Reactangle("green", 45, 30, 10, 20);
+console.log(newReact);
+let newReact2 = Reactangle.print('{"first":"40", "second": "20}'); // calling static method
+console.log(newRact2 instanceof Rectangle); // true
+// typeof Rectangle - function. Behind the Scene, same thing is happenning as before
+// It is just converting from ES6 to ES5 behind the scene
