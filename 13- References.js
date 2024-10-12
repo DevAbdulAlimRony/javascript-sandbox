@@ -129,6 +129,7 @@ let charFromUnicode = String.fromCharCode(72, 69, 67); // Converts Unicode value
 // The prototype is a property available with all JavaScript objects.
 
 str1.at(0); // Character at Index
+str1.startsWith("Abdul"); // Output: true
 // charAt(), charCodeAt()- Unicode of Indexed Character, codePointAt()
 str1.indexOf("A"); // First Occurance Index of A
 // lastIndexOf
@@ -152,3 +153,125 @@ let newStr3 = str2.replace(/Alim/g, "Dalim"); //  All occurance of Alim Replaced
 // Adding Pad
 let padded = str1.padEnd(6, "-"); //str1 length must be 6, so we added - at last to make it length of 6: Abdul -
 // padStart
+// split(), splite()
+str1.substr(1, 4); // Slice from index 1 to index 4
+str1.substr(2); // From Position 2s. Does not change original array
+str1.substring(1, 4); // Slice Index 1 to Length 4
+// toLowerCase(), toLocaleLowerCase(), toUpperCase()
+// toString(): The toString() method is used internally by JavaScript when an object needs to be displayed as a text (like in HTML)
+str1.trim(); // remove whitespace from left and right side, dont change original array
+// trimStart(), trimEnd()
+str1.valueOf(); // Return primitive vlue of a string, from object to primitive value
+// date1.valueOf() < date2.valueOf(): comparing timestamps easily
+
+/*== 3. Number ==*/
+
+// Prpertirs of Method
+let num1 = 134.5;
+let num2 = 5.56789;
+let num3 = 1000000;
+num1.constructor; // Returns the function that created the Number prototype
+// num1.constructor === Number, str.constructor === String, arr.constructor === Array : Checking
+// Number.EPSILON in JavaScript represents the smallest difference between two numbers that can still be considered distinct from one another.
+// Real Life Example: Comparing Floating-Point Numbers for Perfect Equality so that Calculation is perfect
+let originalPrice = 100.0;
+let discount = 0.1; // 10% discount
+let targetPrice = 90.0;
+let calculatedPrice = originalPrice * (1 - discount);
+// Due to Floating Point prcesion, calculatedPrice and targetPrice will not equal. Solution:
+function isEqual(a, b) {
+  return Math.abs(a - b) < Number.EPSILON; // static property
+}
+isEqual(calculatedPrice, targetPrice);
+Number.MAX_SAFE_INTEGER; // 9007199254740991
+Number.MIN_SAFE_INTEGER; // -9007199254740991
+Number.MAX_VALUE; // 1.7976931348623157e+308
+Number.MIN_VALUE; // 5e-324
+Number.NaN; // ES1 Feature. Output: NaN
+Number.NEGATIVE_INFINITY; // -Infinity
+Number.POSITIVE_INFINITY; // Infinity
+Number.prototype; // prototype allows you to add new properties and methods to numbers.
+
+// Static Methods of Number
+Number.isFinite(num1); // Output: true. If  num1 is finite and legal number. If it is other data type, it will return false. // Not Supported in IE
+Number.isInteger(num1); // Output: true. ES6 Feature. Not Supported in ES6
+Number.isNaN("a"); // false
+Number.isNaN(0 / 0); // true
+Number.isSafeInteger(num1); // true
+Number.isSafeInteger(0.5); // fase
+Number.isSafeInteger(-infinity); // false, ES6 Feature
+// A safe integer is an integer that can be exactly represented as an IEEE-754 double precision number: all integers from (253 - 1) to -(253 - 1).
+Number.parseFloat(num1); // Parses a value as a string and returns the first number.
+Number.parseFloat("34 45 66"); // Output: 34
+Number.parseFloat("40H"); // Output: 40
+// If the first character cannot be converted, NaN is returned.. Ex: H40
+Number.parseInt("10.00"); // Output: 10, arses a value as a string and returns the first integer.
+
+// Instance Methods for Number Object
+num1.toExponential(); // Output: 1.345e+2
+num2.toFixed(); // Output: 6. Converts a number to a string, rounded to a specified number of decimals
+num2.toFixed(2); // Output: 5.56
+num2.toFixed(2); // Output: 5.5678900000
+num3.toLocaleString(); // Output: 1,000,000
+num3.toLocaleString("en-US", { style: "currency", currency: "USD" }); // Output: $1,000,000.00, ES3 Feature
+// The toLocaleString() returns a number as a string, using local language format. Depends on Locale setup of computer.
+num2.toPrecision(2); // Output: 5.0056789- added 2 precision after point
+num2.toString(); // Convert number to string
+num2.toString(2); // Convert to Binary. Octal: 8, Hexa: 16
+num2.valueOf(); // Primitive Value of Number. If we create number by new Number() etc
+
+/*== 3. Math ==*/
+Math.E; // Euler's Number: 2.718281828459045
+Math.LN2; // Natural logarithm of 2, 0.6931471805599453
+Math.LN10; // 2.302585092994046
+Math.PI; // 3.141592653589793
+Math.SQRT1_2; // square root of 1/2: 0.7071067811865476
+Math.SQRT1_2; // square root of 2: 1.4142135623730951
+// LOG2E, LOG10E
+
+Math.abs(-7.25); // Output: 7.25. If null, will return 0
+// acosh(), asin(), asinh(), atan(), atan2(), atanh(), cos(), cosh(), clz32(), exp(), expm1(), sin(), sinh(), tan(), tanh()
+Math.cbrt(125); // Output: 5, cubit root of a number. ES6 Feature
+Math.ceil(0.6); // Output: 1
+Math.floor(0.6); // Output: 0
+Math.fround(2.6); // 2.5999999046325684
+Math.round(2.5); // Output: 3
+Math.log(2); // Returns the natural logarithm (base E) of a number.
+// log10, log1p, log2
+Math.max(0, 150, 30, 20, 38); // 150, Math.min()
+Math.sqrt(4); // Output: 2
+Math.pow(4, 3); // 64
+Math.random() * 10; // Random frm 0 to 10
+Math.sign(-3); // Output: -1. Positive: 1, Negative: -1, Zero: 0
+Math.trunc(8.76); // Output: 8. Return Integer part of a Number
+
+/*== 4. Object ==*/
+const person1 = {
+  firstName: "Abdul",
+  lastName: "Alim",
+  age: 25,
+};
+const person2 = { firstName: "Abul", lastName: "Bolod" };
+person1.constructor;
+person1.prototype;
+Object.keys(person2);
+Object.values(person2);
+Object.assign(person1, person2); // person1: firstName: Abul,lastName: Smith,age:25. Assign Property to Another Object
+const newPerson = Object.create(person1); // Copied person1 to newPerson. Now, newPerson is another object. ES5 Feature
+Object.defineProperties(person1, {
+  department: { value: "it" },
+}); // Add New Property or Change Existing Property in an Object
+// defineProperty()
+Object.entries(person2); // Convert Object into an Iterable Array
+Object.freeze(person2); // Cant Change the object Anymore. In non strict mode, fail siletnly. In strict mode, throw error
+Object.isFrozen(person2); // Check if Object freezed
+Object.preventExtensions(person2); // Cant add new Property Value
+Object.isExtensible(person2); // Check if Extensib
+Object.seal(person2); // Prevents additions or deletions of new properties.
+Object.isSeal(person2);
+Object.fromEntries(arr1); // Convert aray into Object
+// Object.getOwnPropertyDescriptor(), getOwnPropertyDescriptors, getOwnPropertyNames
+Object.groupBy(person1, customCallback());
+
+person2.toString(); // Convert Object to String. If cant, it returns [Object Object]
+person2.valueOf();

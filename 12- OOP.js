@@ -314,3 +314,5 @@ function mixin(target, ...sources) {
 mixin(Person.prototype, canWalk, canEat);
 var person1 = new Person("A");
 console.log(person);
+
+//*== OOP in ES6 == //
