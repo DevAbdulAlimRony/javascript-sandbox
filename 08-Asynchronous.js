@@ -292,6 +292,7 @@ async function fetchData() {
 }
 
 // Async Iterator: Handling Collection of Async: use [Symbol.asyncIterator]()
+// Let's say you're working on an application that fetches data from multiple API endpoints. Instead of fetching the data all at once and waiting for all requests to finish, you can use an async iterator to process the data as soon as each request is completed, making the application more efficient and responsive.
 // For Await of Loop
 // Async Generator
 

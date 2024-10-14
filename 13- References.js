@@ -335,6 +335,20 @@ time.toLocaleString(); // 10/14/2024, 10:57:50 AM
 time.toString(); // Mon Oct 14 2024 10:58:02 GMT+0600 (Bangladesh Standard Time)
 // toTimeString(), toUTCString()
 time.valueOf(); // Return primitive value of date object, same work as parse
+time.toLocaleTimeString("en-US", {
+  hour: "numeric",
+  minute: "numeric",
+  hour12: true,
+});
+time.toLocaleDateString("en-GB"); // Format as DD/MM/YYYY
+time.toLocaleString("en-GB", {
+  day: "2-digit",
+  month: "2-digit",
+  year: "numeric",
+  hour: "2-digit",
+  minute: "2-digit",
+  hour12: true,
+}); // 14/10/2024, 10:30 AM
 
 // Staic Methods:
 Date.now(); // Same as getTime() in UTC
