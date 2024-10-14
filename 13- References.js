@@ -277,3 +277,70 @@ person2.toString(); // Convert Object to String. If cant, it returns [Object Obj
 person2.valueOf();
 
 /*== 4. Date ==*/
+const time = new Date(); // Date constructor creates a new Date Object (ISO Notion), ES1 Feature
+const time2 = new Date("2015-03-25"); // Output: Wed Mar 25 2015 06:00:00 GMT+0600 (Bangladesh Standard Time)
+// We can also pass milliseconds
+// new Date(year, month, day, hours, minutes, seconds, milliseconds)
+
+// Properties
+time.constructor; // function Date() { [native code] }, object
+// We can use + , - , > , < on multiple dates normally (js will automatically do it as milliseconds)
+time.prototype;
+
+// Instance Methods
+time.getDate(); // Date Portion, Output-Ex: 14 (Return Value: Number)
+time.setDate(15); // Now, Date is Changed in time var, It will shhow 15
+time.getDay(); // Day of the Var, For Saturday- we will get 0 and so on
+const weekday = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
+weekday[time.getDay()]; // Output Ex: Sunday
+time.getMonth(); // Output Ex: 3. January = 0 and so on. We can use array of months like weeks determining
+time.setMonth(11); // Also take day as second optional. (0 - 11).
+// for month: -1 will be last month of the previous year , 12 will first month of next year and so on. Also same for Date
+time.getFullYear(); // Output Ex: 2024 (Return Value: Number)
+time.setFullYear(2020);
+time.setFullYear(2020, 10, 3); // setFullYear() can also set month and day.
+time.getHours(); // Output Ex: 9. Return 0 to 23 (Local Time Hour)
+time.setHours(23);
+time.setHours(23, 59, 3, 999); // setHours() can also set minutes, seconds and milliseconds.
+time.setHours(time.getHours() - 24); // Set the Time 24 Hours Ago
+time.getMinutes(); // Output: 0 to 59
+time.setMinutes(time.getMinutes() - 60); // 60 Minutes Ago, also can take second and millisecond
+time.getSeconds(); // Output: 0 to 59
+time.setSeconds(35); // also can take milliseconds. -1, 60 will result in prevoius or next minute's second
+time.getMilliseconds(); // Output: 0 to 999
+time.setMilliseconds(55);
+// time.setTime(1332403882588)
+time.getTime(); // Returns the number of milliseconds since January 1, 1970 or Specified Date in new Date() constructor
+// Converting from Milliseconds: minute = 1000 * 60, hour = minute * 60, day = hour * 24, year = day * 365
+// seconds = t.getTime() / 1000, days = t.getTime() / (60 * 60 * 24)
+// getTimezoneOffset(): difference between utc and local time in minutes
+
+// Getting UTC: When You need timestamp is consistent no matter where user is located
+// Real life Ex of UTC time: Logging Events, Schedule Task for Different Countries at Same Time, International Transactions, International Calender Events, GPS Tracking
+// getUTCDate(), setUTCDate() getUTCDay() and so on.
+time.toDateString(); // Readable Format: Mon Oct 14 2024, ES1 Feature
+time.toISOString(); // Readable Format as ISO Standard, ES5 Feature
+time.toJSON(); // Returns as string JSON Date Formatting- 2024-10-14T04:53:16.008Z
+time.toLocaleDateString(); // Readable Date as Locale Convention- 10/14/2024
+time.toLocaleTimeString(); // 10:56:50 AM
+time.toLocaleString(); // 10/14/2024, 10:57:50 AM
+time.toString(); // Mon Oct 14 2024 10:58:02 GMT+0600 (Bangladesh Standard Time)
+// toTimeString(), toUTCString()
+time.valueOf(); // Return primitive value of date object, same work as parse
+
+// Staic Methods:
+Date.now(); // Same as getTime() in UTC
+// Date.parse(): Parses a date string and returns the time difference since January 1, 1970 or Specified Date
+Date.parse("2024-10-14T10:30:00");
+// Date.parse() is useful when you are working with date strings and need to convert them to milliseconds for further calculations, comparisons, or validations.
+Date.UTC(); // Same as Parse, but in UTC
+
+/*== 5. Regular Expression ==*/
