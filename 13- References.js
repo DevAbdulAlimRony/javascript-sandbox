@@ -357,4 +357,150 @@ Date.parse("2024-10-14T10:30:00");
 // Date.parse() is useful when you are working with date strings and need to convert them to milliseconds for further calculations, comparisons, or validations.
 Date.UTC(); // Same as Parse, but in UTC
 
-/*== 5. Regular Expression ==*/
+/*== 5. Boolean ==*/
+let bool = false;
+bool.constructor;
+bool.prototype;
+bool.toString();
+bool.valueOf();
+
+/*== 5. JSON ==*/
+var obj = JSON.parse('{ "firstName": "Abdul", "lastName": "Alim" }'); // Parse a String and returns an Object
+// Now, We can access- obj.firstName. Use Case: If we get JSON Data from API
+JSON.stringify('{ "firstName": "Abdul", "lastName": "Alim" }'); // When Send Data to the Server
+
+/*== 5. Regular Expression: RegExp Object ==*/
+// Regular Expression is a pattern of characters for searching and replacing in string
+// RegExp Object is a regular expression with added Properties and Methods
+let text = "Abdul Alim";
+// Regex Modifiers:
+let globalSearch = /alim/g; // search alim globally, finds all matches not just first
+let result = text.match(globalSearch); // globalSearch.exec(text), globalSearch.test(text), text.search(globalSearch)
+globalSearch.global; // checking if /g modifier present- true
+
+let caseInsensitiveSearch = /alim/i; // serach as case in sensitive
+caseInsensitiveSearch.ignoreCase; // Check if i modifier present- true
+
+let startEndMatch = text.match(/(Ab)(im)/d); // d modifier specifies start and end of match
+let multiLineMatch = /^ab/m; // ^ specifies a match at the start of a string, $ means end.
+
+// Regex Groups:
+let abcPattern = /[h]/g;
+let abcPattern2 = /[a-h]/g; // [abc], [A-Z], [a-z], [A-z]
+let abcNotPattern = /^[A-z]/g; // Match Except A to z. Ex: Replacing all characters except all A to z as empty
+let numberPattern = /[0-9]/g; // [0], [0-1]
+// antiNumber- ^[1-5]
+let xOryPattern = /(abdul|alim)/g; // Match abdul or alim
+
+// Regex MetaCharacters
+let dotPattern = /a.l/gi; // Match Between a and l, Output: abdul,al
+let wPattern = /\w/g; // All word characters, not special character except _: a,b,d,u,l,a,l,i,m
+// A word character is a character a-z, A-Z, 0-9, including _ (underscore)
+// \W: Non Word Characters, \d: digits, \D: non digits
+let whiteSpace = /\s/g; // White space character, it will return one whitespace for text
+// \S: No White Space, \bAb: Match Ab at beggining, Ab\b: Match Ab at Ending of the Word, \B: Not at the Beggining or Ending
+// The \0 metacharacter maches NULL characters.
+// The \n character matches newline characters.
+// The \f metacharacter matches form feed characters.
+// The \t metacharacter matches horizontal tabs (tabulators).
+// The \v metacharacter matches vertical tab characters
+// The \xxx metacharacters matches the Latin character by an octal number (xxx).
+// The \xdd metacharacters matches Latin characters specified by a hexadecimal number
+// he \udddd metacharacters matches Unicode characters specified by a hexadecimal number (dddd).
+
+// Regex Quantifiers:
+let atLeastOneChar = /a+/gi; // At least one a, Input: aab abc, Output: aa, a
+let atLeastOneCharWord = /w+/g; // abdul,alim
+let star = /10*/g; // Match 1, or 1 with one or more 0. Input: 1, 100 or 1000?, Output: 1,10,1000
+let question = /10?/g; // atch 1, or 1 with one 0. Input: 1, 100 or 1000?, Output: 1,10,10
+let digitNumbersContain = /\d{4}/g; // If word contains At least 4 digits. Input: 1, 1000 or 10000?, Output: 1000, 1000
+let digitNumbersContain2 = /\d{3,4}/g; // substring of 3 to 4 digits.
+let digitNumbersContain3 = /\d{3,}/g; // At least 3 digits. Output: 1000,10000
+let endOfTheStringByDollar = /ul$/gm; // If ul present end of the string , match globally and in multi line
+let startOfTheStringByDollar = /^ul/g; // Match when ul first at string
+let folllowedBy = /ul(?= ab)/g; // Match ul after ab in string
+let notFolllowedBy = /ul(?! ab)/g; // Match ul not after ab in string
+
+// Regex Properties:
+abcPattern.constructor; // function {native}
+abcPattern.global; // true
+abcPattern.ignoreCase; // false
+abcPattern.lastIndex; // Return last index of matched char
+abcPattern.multiline; // false
+abcPattern.resource; // Text of the RegEx Pattern
+
+// Regex Methods:
+let regResult = /e/.exec(text); // Search e in string. Return e if present, otherwise null
+let regResult2 = /e/.match(text); // true if match found, otherwise false
+let pattern = new RegExp("Nothing", "g");
+let textStr = pattern.toString(); // Output: /nothing/g
+
+/*== 6. Globals  ==*/
+let uri = "main.js?name=abdul&age=25";
+let encoded = encodeURI(uri); // Encode URL
+let decoded = decodeURI(encoded); // Decode URL
+// decodeURIComponent(), encodeURIComponent()
+let toEval = "x * y";
+let evalResult = eval(toEval); // If we console toEavl normally, it will return as string. But for eval() method, it will perform calculation like 10 * 2
+eval("var x = 10;"); // Here 10 will be strored in x. We can run any expression in string like that
+// eval() is not recommended to use for security risk, never use it
+// isFinite(): Returns true if a value is a finite number
+isNaN("Hello"); // true
+isNaN("2005/12/12"); // true
+Number(true); // Output: 1
+Number("999"); // 999
+Number("999 888"); // Not a Number
+Number([9.9]); // 9.9
+Number([9, 9]); // NaN
+// parseFloat(), parseInt()
+String([1, 2, 3, 4]); // Convert different values to strings
+// The undefined property indicates that a variable has not been assigned a value, or not declared at all.
+// checking: x === undefined , typeof x === "undefined"
+
+/*== 6. Window Object ==*/
+alert("Window Alert");
+alert(location.hostname);
+confirm("Press ok to Confirm"); // Confirm Dialog with OK and Cancel Button. true if ok pressed, false if cancel pressed
+
+window.addEventListener("click", myFunc()); // mouseover, mouseout, mousemove
+window.console.error("Mistaken"); // console object is  a property of window object
+console.error("Short Hand"); // access to the browser's debugging console
+window.getComputedStyle(element, null); // gets the computed CSS properties and values of an HTML element
+window.getComputedStyle(element, ":first-letter");
+
+window.frameElement; // Returns the frame where the window runs, null if not
+window.frames; // Returns an array with all window objects
+window.frames[0].location;
+window.length; // how many frames used
+window.history; // History Object contains the URLs visited by the user
+history; // same as window.history
+// for history object: history.length, history.back(), history.forward(), history.go()
+window.innerHeight;
+window.innerWidth;
+window.location; // or, location - Return Current Location Object (full url)
+// location. hash, host, hostname, href, origin, pathname, port, protocol, search, assign(), reload(), replace()
+
+
+// Local Storage Object: Like Caching in Local
+window.localStorage; // or, just localStorage
+localStorage.setItem(key, value);
+localStorage.getItem(key);
+localStorage.removeItem(key);
+localStorage.clear();
+
+// window.btoa(text): Encode string, window.atob(encoded): decodes a base-64 encoded string
+const newWindow = window.open("", "", "width=200, height=100"); // Open a New Blannk Window
+// window.open("https://www.youtube.com", "_blank", "width=200, height=100"); // Open Youtube Window in a New Tab
+newWindow.focus(); // Focus on New Window
+newWindow.blur(); // Remove Focus On New Window
+// blur method makes a request to bring a window to the background, but mayt not work expectedly due to different user settings
+// setInterval(), clearInterval()
+// setTimeout(), clearTimeout()
+newWindow.close(); // Close a Window
+newWindow.closed; // Check if a Window is closed
+
+// When an HTML document is loaded into a web browser, it becomes a document object.
+// The document object is a property of the window object.
+window.document.URL; // or,
+document.URL;
+
