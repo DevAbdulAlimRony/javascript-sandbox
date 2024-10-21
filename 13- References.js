@@ -461,25 +461,47 @@ String([1, 2, 3, 4]); // Convert different values to strings
 alert("Window Alert");
 alert(location.hostname);
 confirm("Press ok to Confirm"); // Confirm Dialog with OK and Cancel Button. true if ok pressed, false if cancel pressed
+prompt("Please enter your name", "Name"); // Dialog with a Input Box, Default Value- Name
+// The prompt() method returns the input value if the user clicks "OK", otherwise it returns null
 
 window.addEventListener("click", myFunc()); // mouseover, mouseout, mousemove
+window.removeEventListener("mousemove", myFunc());
 window.console.error("Mistaken"); // console object is  a property of window object
 console.error("Short Hand"); // access to the browser's debugging console
 window.getComputedStyle(element, null); // gets the computed CSS properties and values of an HTML element
 window.getComputedStyle(element, ":first-letter");
+window.matchMedia("(max-width: 700px)").matches; // true or false
+window.scrollBy(100, 100); // Scroll Document 100 px horizontall, 100 px vertically
+// window.pageXOffset, window.pageYOffset - Determine the Scrolled Position
+// scrollTo(), scrollX, scrollY
+window.print(); // Print the content of the current window
+window.stop(); // Stop Loading of the Window
 
+window.self; // Return Current Window
+window.top; // topmost window in the current browsers
 window.frameElement; // Returns the frame where the window runs, null if not
 window.frames; // Returns an array with all window objects
 window.frames[0].location;
 window.length; // how many frames used
-window.history; // History Object contains the URLs visited by the user
-history; // same as window.history
+window.parent; // or, parent : Parent Window of a Window
+parent.document.body.style.backgroundColor = "lightblue"; // change parent's bg color
 // for history object: history.length, history.back(), history.forward(), history.go()
 window.innerHeight;
-window.innerWidth;
+window.innerWidth; // outerHeight, outerWidth
+window.screenLeft; // x position
+// screenTop, screenX, screenY
 window.location; // or, location - Return Current Location Object (full url)
 // location. hash, host, hostname, href, origin, pathname, port, protocol, search, assign(), reload(), replace()
-
+window.name = "Dhur"; // Set a Name for Window, Not Necessary
+window.navigator; // or, navigator. Contains information About Browser
+navigator.appCodeName; // appName, appVersion, cookieEnabled, geolocation, language, onLine, platform, product, userAgent
+window.screen; // or, screen. Info about visitor's screen
+screen.availHeight; // availWidth, colorDepth, height, pixelDepth, width
+window.history; // History Object contains the URLs visited by the user
+history; // same as window.history
+sessionStorage.setItem("firstname", "Malitha"); // set session in key value pair
+sessionStorage.getItem("firstname");
+// localStorage remain in cache, but sessionStorage remain as long as tab opened
 
 // Local Storage Object: Like Caching in Local
 window.localStorage; // or, just localStorage
@@ -493,6 +515,10 @@ const newWindow = window.open("", "", "width=200, height=100"); // Open a New Bl
 // window.open("https://www.youtube.com", "_blank", "width=200, height=100"); // Open Youtube Window in a New Tab
 newWindow.focus(); // Focus on New Window
 newWindow.blur(); // Remove Focus On New Window
+newWindow.moveBy(250, 250); // To a Relative Position
+newWindow.moveTo(500, 100); // Specified Coordinates
+myWindow.resizeBy(250, 250); // Resize in a Specified Amoun, resizeTo()
+newWindow.opener.document; // opener- Reference of the New Window
 // blur method makes a request to bring a window to the background, but mayt not work expectedly due to different user settings
 // setInterval(), clearInterval()
 // setTimeout(), clearTimeout()
@@ -504,3 +530,18 @@ newWindow.closed; // Check if a Window is closed
 window.document.URL; // or,
 document.URL;
 
+/*== 6. Window Console Object ==*/
+console.assert(x + y == 11, "Error False"); // Write error message in console if something return false
+console.clear();
+console.count(); // Number of Times it is called
+console.error("Hoyni"); // Write an error msg to console
+console.group("Show in console.group()"); // starts a message group. If we write any err message after it, message will be in that group
+// console.groupCollapsed() - collapsed group
+// console.groupEnd(); - ends group section
+console.info(); // writes a message
+console.log("Write a Log Message");
+console.table(["Audi", "Volvo", "Ford"]); // Write an array or object as a table in the console
+console.time(); // starts a timer
+console.timeEnd(); // ends timer
+console.trace(); // displays a trace that show how the code ended up at a certain point
+console.warn("write a warning message");
