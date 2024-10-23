@@ -545,3 +545,32 @@ console.time(); // starts a timer
 console.timeEnd(); // ends timer
 console.trace(); // displays a trace that show how the code ended up at a certain point
 console.warn("write a warning message");
+
+/*== 6. HTML Documents ==*/
+// All HTML elements are nodes. (tag, attribute etc, enter also)
+document.activeElement; // cy=urrently focused element
+document.baseURI; // document.documentURI, document.domain, 
+document.documentElement; // Return HTML Element
+document.characterSet;
+document.body; // Return Body Element
+document.body.innerHTML;
+document.body.style.backgroundColor;
+document.cookie; // all cookie with this document
+document.defaultView; // Return the document's window object
+document.designMode; // If document is editable, can assign on or off
+document.doctype.name; // Output Ex: html
+
+// new document
+document.open(); // It clears the document (overwrites all previous content).
+document.write("overwrites all document");
+document.close();
+
+document.addEventListener('click', function () { });
+// adoptNode(): adopt a node from another document, createDocumentFragment(), createElement()
+const attr = document.createAttribute('class');
+attr.value = 'custom_class';
+const h1 = document.getElementsByTagName("H1")[0];
+h1.setAttributeNode(att);
+document.createComment("I am comment");
+// createEvent(): method creates an event object
+// createTextNode()
