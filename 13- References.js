@@ -550,8 +550,12 @@ console.warn("write a warning message");
 // All HTML elements are nodes. (tag, attribute etc, enter also)
 document.activeElement; // cy=urrently focused element
 document.baseURI; // document.documentURI, document.domain, 
+document.URL;
+document.referrer; // returns the URL of the document that loaded the current document.
 document.documentElement; // Return HTML Element
 document.characterSet;
+document.head; // Returns head element
+document.title;
 document.body; // Return Body Element
 document.body.innerHTML;
 document.body.style.backgroundColor;
@@ -559,13 +563,21 @@ document.cookie; // all cookie with this document
 document.defaultView; // Return the document's window object
 document.designMode; // If document is editable, can assign on or off
 document.doctype.name; // Output Ex: html
+document.forms.length; // Returns a collection of all <form> elements in a document.
+//document. forms[0].id, forms.item(0).id, forms.namedItem("myCarFormID").innerHTML.
+document.images; // .length, .images[0].src, .images.namedItem("myImg").src
+document.lastModified;
+document.links // return all links in the document
+document.readyState; // Loading State of the Document
+document.scripts; // return all scripts of the document
 
 // new document
-document.open(); // It clears the document (overwrites all previous content).
+document.open(); // It clears the document (overwrites all previous content). Return: loading
 document.write("overwrites all document");
 document.close();
 
-document.addEventListener('click', function () { });
+document.implementation.hasFeature("DOM", "1.0"); // Does this document has the feature DOM 1.0?
+document.addEventListener('click', function () { }); // removeEventListener()
 // adoptNode(): adopt a node from another document, createDocumentFragment(), createElement()
 const attr = document.createAttribute('class');
 attr.value = 'custom_class';
@@ -574,3 +586,8 @@ h1.setAttributeNode(att);
 document.createComment("I am comment");
 // createEvent(): method creates an event object
 // createTextNode()
+// getElementById(), getElementsByClassName(), getElementsByTagName(), getElementsByName(), querySelector(), querySelectorAll()
+document.hasFocus(); // if the document (or any element in the document) has focus
+// importNode()
+document.normalize(); // removes empty text nodes, and joins adjacent text nodes
+// document.write(), document.writeln()
