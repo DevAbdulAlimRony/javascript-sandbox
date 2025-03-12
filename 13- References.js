@@ -591,3 +591,12 @@ document.hasFocus(); // if the document (or any element in the document) has foc
 // importNode()
 document.normalize(); // removes empty text nodes, and joins adjacent text nodes
 // document.write(), document.writeln()
+
+/*== 6. HTML Element Object ==*/
+let element = document.getElementById("myAnchor")
+element.accessKey = "w"; // Now, pressing alt + w will activate or focus that element
+// addEventListener(), removeEventListener()
+// appendChild(): appends a node (element) as the last child of an element
+element.attributes;
+// blur(): remove focus
+element.childElementCount;

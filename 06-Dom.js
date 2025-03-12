@@ -1,3 +1,7 @@
+// Document Object Model- Tree Type Model of HTML Structure
+// DOM is the programming interface of HTML document. when browser load site, html document converted to DOM Tree
+// DOM needs to manipuate HTML elements
+
 //Working With Document Object
 console.dir(document);
 console.log(document.title);
@@ -22,7 +26,7 @@ let IDText = document.getElementById("IDText");
 console.dir(IDText); //See all properties of this object
 document.writeln(IDText.textContent + "<br />"); // Just Text, Not CSS or other element's effect...
 document.writeln(IDText.innerText + "<br />");
-document.writeln(IDText.innerHTML + "<br />"); //All Content including HTML Element
+document.writeln(IDText.innerHTML + "<br />"); //All Content including HTML Element , also comment
 console.log(IDText.innerHTML); //With Inner HTML Tags
 IDText.style.color = "green";
 IDText.style.borderBottom = "1px solid red"; //Not border-bottom
@@ -35,7 +39,8 @@ for (let i = 0; i < items.length; i++) {
 }
 
 //Get Elements By TagName
-var lists = document.getElementsByTagName("li");
+var lists = document.getElementsByTagName("li"); // We will get Array like Object or HTML Collection
+// Array like Object is not 100% array
 console.log(lists[0]);
 
 //Query Selector
@@ -48,7 +53,7 @@ secondListItem.style.color = "DarkGrey";
 
 //Query Selector All
 var listitems = document.querySelectorAll(".item:nth-child(3)");
-for (let item of listitems) {
+for (let item of listitems) { // Traverse DOM
   item.style.color = "DarkRed";
 }
 
@@ -65,9 +70,8 @@ for (var children of child) {
 var child2 = document.querySelector(".items");
 child2.parentElement.style.marginLeft = "20px";
 
-//Closest()
+//Closest()- Search from bottom to top
 var SearchGrandFromChild = child2.closest("#grand-parent");
-//Search from bottom to top
 console.log(SearchGrandFromChild);
 
 //Next Sibling, Previous Sibling
@@ -104,11 +108,81 @@ const input = document.querySelector('input[type="text"]');
 input.addEventListener("keydown", (event) => {
   console.log(event.target.value);
 });
-
 //focus, keydown, keyup, keypress, blur, cut, paste, input
 
 const form = document.querySelector("form");
 form.addEventListener("submit", (event) => {
   event.preventDefault(); //Prevent Reload
   console.log(event.target);
+});
+
+// When we use classNames selector, we get HTML Collection, but when we use querySelectorAll we get NodeList in the DOM Object
+// We can use forEach or forOf Loop on NodeList, But on Collection or array like object we can only use for of
+// An HTMLCollection is a list of DOM elements that match certain criteria. For example, they may have the same tag name or class. Or they may be related in a specific context, like children of a particular element.
+//  a NodeList is a list of nodes. But what is a node? A node is any individual element in the DOM tree. This could be elements, attributes, texts, comments, and so on.
+
+// getAttribute(), setAttribute(), classList, classList.remove(), classList.add()
+// childNode, parentNode
+
+// DOM Event Listener
+// <button onClick='makeGreen()'> // or,
+document.getElementById('ok').addEventListener('click', function makeGreen() {
+  document.body.style.backgroundColor = 'green'
+}) // or,
+document.getElementById('ok').addEventListener('click', function () {
+  document.body.style.backgroundColor = 'green'
+})
+// click, mouseover, mouseout, keydown, keyup, keypress, submit, change, focus, blur, load, resize, scroll
+// Event Object: event.target, event.type, event.key
+document.getElementById('message-input-box').addEventListener('keyup', function (event) {
+  console.log('typing', event.target.value);
+}) // ja type korche shetay dekha jabe
+
+// Github Type Delete Example
+document.getElementById('input-delete').addEventListener('keyup', function (event) {
+  const text = event.target.value;
+  const btnDelete = document.getElementById('btn-delete');
+  if (text == 'delete') {
+    btnDelete.removeAttribute('disabled');
+  }
+  else {
+    btnDelete.setAttribute('disabled', true);
+  }
+})
+
+// Event Bubble and Stop Propagating
+// Event Bubbling is a concept in the DOM (Document Object Model). It happens when an element receives an event, and that event bubbles up (or you can say is transmitted or propagated) to its parent and ancestor elements in the DOM tree until it gets to the root element.
+// Bubbling is the default behavior of events on elements unless you stop the propagation
+body.addEventListener('click', () => {
+  console.log("body was clicked")
+})
+
+div.addEventListener('click', () => {
+  console.log("div was clicked") // output: div was clicked, body was clicked. bubbling happens.
+})
+
+button.addEventListener('click', (event) => {
+  event.stopPropagation()
+  console.log("button was clicked") // output: button was clciked,  bubbling stopped
+})
+
+// stopImmediatePropagation()
+document.getElementById("myButton").addEventListener("click", (event) => {
+  event.stopImmediatePropagation(); // Stops this and any other listener on button
+  console.log("First event: Button clicked");
+});
+
+document.getElementById("myButton").addEventListener("click", () => {
+  console.log("Second event: Button clicked again");
+});
+
+document.body.addEventListener("click", () => {
+  console.log("Body was clicked");
+});
+
+// Event Delegation: Event delegation is a technique in JavaScript where instead of adding event listeners to multiple child elements, you add a single event listener to a parent element. This works because of event bubbling—the event propagates up the DOM tree, allowing the parent to handle events from its child elements.
+document.getElementById("list").addEventListener("click", function (event) {
+  if (event.target.tagName === "LI") { // Ensures only <li> elements trigger
+    console.log("You clicked:", event.target.textContent);
+  }
 });

@@ -17,6 +17,34 @@ console.log(oct);
 //Equality Check: == , === , object.is , same value zero algorithm(ex. check if something present in array. array[NaN]. If we run array.includes(), then we will get true)
 //Check Equality table from documentation
 
+
+
+// const: value wont change
+// let: value can be changed
+// var: Not recommended to use, old thing. It is scoped to a function, not in a block
+// var Allows Redeclaration (Which Can Cause Bugs)
+// var is Hoisted Without Initialization (Creates undefined Bugs)
+// If var is declared outside a function, it becomes part of the window object, which can cause conflicts.
+if (true) {
+  var test = "I exist outside the block!";
+}
+console.log(test); // ✅ Output: "I exist outside the block!" (Bad)
+if (true) {
+  let test = "I am safe inside!";
+}
+console.log(test); // ❌ Error: test is not defined
+var x = 10;
+var x = 20; // ✅ No error, but can be problematic
+console.log(x); // 20
+let y2 = 10;
+// let y = 20; // ❌ Error: Identifier 'y' has already been declared
+console.log(myVar); // ✅ Output: undefined (Not an error, but confusing)
+var myVar = 5;
+console.log(myLet); // ❌ ReferenceError: Cannot access 'myLet' before initialization
+let myLet = 5;
+var name = "Alice";
+console.log(window.name); // ✅ "Alice" (Bad, pollutes global scope)
+
 //Type Conversion
 str = "123"; //automatic type conversion
 str2 = str + 10; //not Auto type conversion
@@ -36,8 +64,8 @@ console.log(date.toDateString());
 //'abc' < 'bcd' (first letter a and b, if they equal compare second letter)
 //small letter is greater than capital letter-  'a' > 'Z'
 //'001' == 1 -Returns true, string converted to number when we compare
-
-//String Methods: concat(), startsWith(), endsWith(), substr(), charAt(), toUpperCase(), toLowerCase(), trim(), split(), string and array property: length
+// String is immutable, we cant change any character by its index. Array is mutable - Ex. arr[0] = 1
+//String Methods: concat(), startsWith(), endsWith(), substr(), charAt(), toUpperCase(), toLowerCase(), trim(), split(' '), includes() string and array property: length
 
 //Array
 var arr1 = [1, 2, 3, 4, 5];
@@ -46,17 +74,23 @@ var arr3 = [
   [1, 2],
   [3, 4],
 ];
-//push(), pop(), shift(), unshift(), splice()
-
+var mixedArray = [1, 'ok', true]; // Not Recommended for Internal Optimization
+// arr.length,
+//push(), pop(), shift(), unshift(), slice(), splice(), includes('item'), indexOf('item')
 //Array Reverse: arr.reverse(). Do it in Raw without method
-
 //Methods: join(), fill(), concat(), isArray(), from()
 
 //Javascript Object
-var obj1 = { a: 2 };
+var obj1 = { a: 2 }; // object literal
 delete obj1.a;
 var obj2 = new Object();
 //Object Methods: Object.keys(), Object.entries(), Object.values(), Object.assign()
+// We can create object by object Literal, Class, new Object(), Object.create({})
+// Object Iterate: for in Loop - singleData in AllData
+// Property Access: obj.prop, obj['prop'], { prop } = obj, obj[prop]
+// Deleting Property: delete myObject.propertyName
+
+// All Types Loop: for, for of, while, do while, , for in [iterate over object], array,foreach, map(), filter(), reduce()
 
 // Fat Arrow Function
 //normal function
